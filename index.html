@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio landing page for Anastasis Chatzidakis, second-year MST student at AUEB building AI-aware tools, Java systems, and product experiences.">
+  <title>Anastasis Chatzidakis | MST AUEB Portfolio</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="stylesheet" href="assets/styles.css?v=outline-3">
+</head>
+<body>
+  <a class="skip-link" href="#projects">Skip to projects</a>
+
+  <header class="site-header" data-header>
+    <a class="brand-mark" href="#top" aria-label="Anastasis Chatzidakis home">
+      <span>AS</span>
+      <strong>MST AUEB</strong>
+    </a>
+
+    <button class="icon-button menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">
+      <i data-lucide="menu" aria-hidden="true"></i>
+      <span class="visually-hidden">Open navigation</span>
+    </button>
+
+    <nav class="site-nav" id="site-nav" data-nav aria-label="Primary navigation">
+      <a href="#projects">Projects</a>
+      <a href="#stack">Stack</a>
+      <a href="#momentum">Momentum</a>
+      <a href="#contact">Contact</a>
+      <a href="https://github.com/anaschatz" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="scroll-intro" aria-labelledby="hero-title" data-scroll-intro>
+      <div class="intro-sticky">
+        <canvas id="intro-canvas" aria-hidden="true"></canvas>
+        <div class="intro-atmosphere" aria-hidden="true"></div>
+
+        <div class="intro-copy intro-hero" data-intro-hero>
+          <p class="eyebrow">Second-year Management Science and Technology student at AUEB</p>
+          <h1 id="hero-title">Anastasis Chatzidakis</h1>
+          <p class="hero-lede">
+            A project-driven student building AI-aware tools, high-performance Java systems,
+            and polished product experiences before the first job title arrives.
+          </p>
+
+          <div class="hero-actions" aria-label="Portfolio actions">
+            <a class="primary-action" href="#projects">
+              <i data-lucide="sparkles" aria-hidden="true"></i>
+              View projects
+            </a>
+            <a class="secondary-action" href="https://github.com/anaschatz" target="_blank" rel="noopener noreferrer">
+              <i data-lucide="code-2" aria-hidden="true"></i>
+              View GitHub
+            </a>
+          </div>
+
+          <p class="scroll-cue">Scroll to discover the build process</p>
+        </div>
+
+        <div class="intro-process" data-process-panel aria-label="Portfolio build process">
+          <ol class="process-list">
+            <li class="process-step is-active" data-step="0">
+              <span class="process-index">01</span>
+              <div>
+                <h3>AI signal gathering</h3>
+                <p>Active in technology and AI communities, following emerging tools and turning ideas into small, practical experiments.</p>
+              </div>
+            </li>
+            <li class="process-step" data-step="1">
+              <span class="process-index">02</span>
+              <div>
+                <h3>Budget intelligence engine</h3>
+                <p>A high-performance Java application for visualization, hierarchical analysis, and strategic modification of the Greek State Budget.</p>
+              </div>
+            </li>
+            <li class="process-step" data-step="2">
+              <span class="process-index">03</span>
+              <div>
+                <h3>Interactive product build</h3>
+                <p>An interactive gym app concept focused on session flow, progress tracking, and mobile-friendly daily use.</p>
+              </div>
+            </li>
+            <li class="process-step" data-step="3">
+              <span class="process-index">04</span>
+              <div>
+                <h3>Foundations compounding</h3>
+                <p>Java depth, Python basics, HTML/CSS fundamentals, and product taste combine into a strong early technical trajectory.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-wrap project-section" id="projects" aria-labelledby="projects-title">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">Selected work</p>
+        <h2 id="projects-title">Projects with real analytical weight.</h2>
+        <p>
+          The portfolio is shaped around the type of work Anastasis already gravitates toward:
+          useful interfaces, structured data, and systems that make complex choices easier to see.
+        </p>
+      </div>
+
+      <div class="project-grid">
+        <article class="project-card feature-card" data-reveal>
+          <div class="project-visual budget-visual" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="project-body">
+            <div class="project-kicker">
+              <i data-lucide="landmark" aria-hidden="true"></i>
+              Java performance system
+            </div>
+            <h3>Greek State Budget Intelligence</h3>
+            <p>
+              A high-performance Java application for visualization, hierarchical analysis,
+              and strategic modification of the Greek State Budget.
+            </p>
+            <ul class="tag-list" aria-label="Greek State Budget Intelligence capabilities">
+              <li>Hierarchical data</li>
+              <li>Scenario edits</li>
+              <li>Fast visualization</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card" data-reveal>
+          <div class="project-visual gym-visual" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="project-body">
+            <div class="project-kicker">
+              <i data-lucide="activity" aria-hidden="true"></i>
+              Interactive product app
+            </div>
+            <h3>Gym Companion</h3>
+            <p>
+              An interactive gym app concept focused on session flow, progress tracking,
+              and a user experience that feels practical during training.
+            </p>
+            <ul class="tag-list" aria-label="Gym Companion capabilities">
+              <li>UX flow</li>
+              <li>Habit loops</li>
+              <li>Responsive UI</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="project-card" data-reveal>
+          <div class="project-visual ai-visual" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="project-body">
+            <div class="project-kicker">
+              <i data-lucide="brain-circuit" aria-hidden="true"></i>
+              AI community practice
+            </div>
+            <h3>AI Experiments and Community Work</h3>
+            <p>
+              Ongoing exploration of AI tools, prompt patterns, community discussions,
+              and small experiments that turn curiosity into usable prototypes.
+            </p>
+            <ul class="tag-list" aria-label="AI exploration topics">
+              <li>Prompting</li>
+              <li>Tooling</li>
+              <li>Automation</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="stack-band" id="stack" aria-labelledby="stack-title">
+      <div class="section-wrap stack-layout">
+        <div class="section-heading compact-heading" data-reveal>
+          <p class="eyebrow">Current stack</p>
+          <h2 id="stack-title">Strong foundations, honest signal.</h2>
+          <p>
+            The skill profile is deliberately transparent: strongest in Java project work,
+            growing through Python basics, HTML/CSS foundations, and AI-native workflows.
+          </p>
+        </div>
+
+        <div class="skill-matrix" data-reveal>
+          <div>
+            <span>Java</span>
+            <strong>Performance-minded app development</strong>
+          </div>
+          <div>
+            <span>Data analysis</span>
+            <strong>Hierarchies, scenarios, and decision views</strong>
+          </div>
+          <div>
+            <span>Python</span>
+            <strong>Basics for scripting and experimentation</strong>
+          </div>
+          <div>
+            <span>HTML/CSS</span>
+            <strong>Basics for responsive interfaces</strong>
+          </div>
+          <div>
+            <span>AI tools</span>
+            <strong>Community-led learning and prototyping</strong>
+          </div>
+          <div>
+            <span>Product sense</span>
+            <strong>Fitness app flows and user-centered thinking</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-wrap momentum-section" id="momentum" aria-labelledby="momentum-title">
+      <div class="section-heading" data-reveal>
+        <p class="eyebrow">Trajectory</p>
+        <h2 id="momentum-title">Built like someone already practicing the job.</h2>
+      </div>
+
+      <div class="timeline" aria-label="Portfolio trajectory">
+        <article data-reveal>
+          <span>Now</span>
+          <h3>Learning in public and through communities</h3>
+          <p>Staying close to AI and technology conversations while turning interesting ideas into small tests.</p>
+        </article>
+        <article data-reveal>
+          <span>Project depth</span>
+          <h3>Budget visualization and modification engine</h3>
+          <p>Using Java to handle structured government budget data with hierarchy, analysis, and scenario edits.</p>
+        </article>
+        <article data-reveal>
+          <span>Product muscle</span>
+          <h3>Interactive gym app</h3>
+          <p>Designing app flows around repeated use, progress clarity, and a mobile-friendly interaction model.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="contact-band" id="contact" aria-labelledby="contact-title">
+      <div class="contact-inner" data-reveal>
+        <p class="eyebrow">Next collaboration</p>
+        <h2 id="contact-title">University teams, AI projects, and ambitious prototypes.</h2>
+        <p>
+          Best fit: roles and collaborations where curiosity, technical pace, and product judgment matter
+          more than a long employment history.
+        </p>
+        <a class="primary-action light-action" href="https://github.com/anaschatz" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="code-2" aria-hidden="true"></i>
+          View GitHub profile
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="assets/app.js?v=outline-3" defer></script>
+</body>
+</html>
