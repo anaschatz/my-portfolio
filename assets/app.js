@@ -1,4 +1,15 @@
 (function () {
+  if ("scrollRestoration" in window.history) {
+    window.history.scrollRestoration = "manual";
+  }
+
+  window.addEventListener("load", () => {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+      requestAnimationFrame(() => window.ScrollTrigger?.refresh());
+    }
+  }, { once: true });
+
   const root = document.documentElement;
   const header = document.querySelector("[data-header]");
   const nav = document.querySelector("[data-nav]");
@@ -6,22 +17,41 @@
   const intro = document.querySelector("[data-scroll-intro]");
 
   const setHeaderState = () => {
-    const introEnd = intro ? intro.offsetTop + intro.offsetHeight - window.innerHeight * 0.22 : 0;
-    const isInIntro = Boolean(intro && window.scrollY < introEnd);
-    header?.classList.toggle("is-in-intro", isInIntro);
-    header?.classList.toggle("is-scrolled", window.scrollY > 12 && !isInIntro);
+    header?.classList.remove("is-in-intro");
+    header?.classList.toggle("is-scrolled", window.scrollY > 12);
   };
 
   setHeaderState();
-  window.addEventListener("scroll", setHeaderState, { passive: true });
   window.addEventListener("resize", setHeaderState);
 
+  let lastHeaderScrollY = -1;
+  const syncHeaderState = () => {
+    if (Math.abs(window.scrollY - lastHeaderScrollY) > 0.5) {
+      lastHeaderScrollY = window.scrollY;
+      setHeaderState();
+    }
+    requestAnimationFrame(syncHeaderState);
+  };
+  syncHeaderState();
+
+  let pointerFrame = 0;
+  let pendingPointerX = 50;
+  let pendingPointerY = 50;
+
   document.addEventListener("pointermove", (event) => {
-    const x = Math.round((event.clientX / window.innerWidth) * 100);
-    const y = Math.round((event.clientY / window.innerHeight) * 100);
-    root.style.setProperty("--pointer-x", `${x}%`);
-    root.style.setProperty("--pointer-y", `${y}%`);
-  });
+    pendingPointerX = Math.round((event.clientX / window.innerWidth) * 100);
+    pendingPointerY = Math.round((event.clientY / window.innerHeight) * 100);
+
+    if (pointerFrame) {
+      return;
+    }
+
+    pointerFrame = requestAnimationFrame(() => {
+      root.style.setProperty("--pointer-x", `${pendingPointerX}%`);
+      root.style.setProperty("--pointer-y", `${pendingPointerY}%`);
+      pointerFrame = 0;
+    });
+  }, { passive: true });
 
   menuToggle?.addEventListener("click", () => {
     const isOpen = nav?.classList.toggle("is-open");
@@ -79,55 +109,62 @@ function initMotion(introScene) {
   window.gsap.registerPlugin(window.ScrollTrigger);
 
   if (intro) {
-    let lastIntroProgress = -1;
+    let activeStepIndex = -1;
 
-    const getIntroProgress = () => {
-      const travel = Math.max(1, intro.offsetHeight - window.innerHeight);
-      return window.gsap.utils.clamp(0, 1, (window.scrollY - intro.offsetTop) / travel);
-    };
-
-    const updateProcess = () => {
-      const progress = getIntroProgress();
-      if (Math.abs(progress - lastIntroProgress) < 0.0005) {
-        return;
-      }
-      lastIntroProgress = progress;
-
+    const syncIntroProgress = (progress) => {
       const phase = window.gsap.utils.clamp(0, 0.999, (progress - 0.2) / 0.67);
       const activeIndex = Math.min(processSteps.length - 1, Math.floor(phase * processSteps.length));
-      const heroExit = window.gsap.utils.clamp(0, 1, (progress - 0.08) / 0.14);
-      const processEnter = window.gsap.utils.clamp(0, 1, (progress - 0.16) / 0.08);
-      const processExit = window.gsap.utils.clamp(0, 1, (progress - 0.93) / 0.05);
-      const processOpacity = processEnter * (1 - processExit);
-      const processX = -24 * (1 - processEnter) - 18 * processExit;
+
+      if (activeIndex !== activeStepIndex) {
+        activeStepIndex = activeIndex;
+        processSteps.forEach((step, index) => {
+          step.classList.toggle("is-active", index === activeIndex);
+        });
+      }
 
       if (introHero) {
-        introHero.style.opacity = String(1 - heroExit);
-        introHero.style.transform = `translate(-50%, calc(-50% - ${78 * heroExit}px)) scale(${1 - 0.04 * heroExit})`;
-        introHero.style.pointerEvents = heroExit > 0.92 ? "none" : "auto";
+        introHero.style.pointerEvents = progress > 0.22 ? "none" : "auto";
       }
-
-      if (processPanel) {
-        processPanel.style.opacity = processOpacity.toFixed(3);
-        processPanel.style.setProperty("--process-x", `${processX.toFixed(2)}px`);
-      }
-
-      processSteps.forEach((step, index) => {
-        step.classList.toggle("is-active", index === activeIndex);
-      });
 
       introScene?.setProgress(progress);
     };
 
-    window.addEventListener("scroll", updateProcess, { passive: true });
-    document.addEventListener("scroll", updateProcess, { passive: true, capture: true });
-    window.addEventListener("resize", updateProcess);
-    window.setInterval(updateProcess, 90);
-    const syncIntro = () => {
-      updateProcess();
-      requestAnimationFrame(syncIntro);
-    };
-    syncIntro();
+    const introTimeline = window.gsap.timeline({
+      defaults: { ease: "none" },
+      scrollTrigger: {
+        trigger: intro,
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 0.8,
+        onUpdate: (self) => syncIntroProgress(self.progress),
+        onRefresh: (self) => syncIntroProgress(self.progress)
+      }
+    });
+
+    if (introHero) {
+      introTimeline.to(introHero, {
+        autoAlpha: 0,
+        "--hero-y": "-78px",
+        "--hero-scale": 0.96,
+        duration: 0.14
+      }, 0.08);
+    }
+
+    if (processPanel) {
+      introTimeline
+        .to(processPanel, {
+          autoAlpha: 1,
+          "--process-x": "0px",
+          duration: 0.08
+        }, 0.16)
+        .to(processPanel, {
+          autoAlpha: 0,
+          "--process-x": "-18px",
+          duration: 0.05
+        }, 0.93);
+    }
+
+    syncIntroProgress(0);
   }
 
   window.gsap.utils.toArray("[data-reveal]").forEach((item) => {
@@ -144,23 +181,7 @@ function initMotion(introScene) {
     });
   });
 
-  window.gsap.utils.toArray(".project-card").forEach((card) => {
-    const visual = card.querySelector(".project-visual");
-    if (!visual) {
-      return;
-    }
-
-    window.gsap.to(visual, {
-      yPercent: -7,
-      ease: "none",
-      scrollTrigger: {
-        trigger: card,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
-      }
-    });
-  });
+  window.ScrollTrigger.refresh();
 }
 
 function initScrollIntroScene() {
@@ -173,7 +194,7 @@ function initScrollIntroScene() {
 
   const THREE = window.THREE;
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0xdbeafe, 0.018);
+  scene.fog = new THREE.FogExp2(0xfafafa, 0.015);
 
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -182,7 +203,6 @@ function initScrollIntroScene() {
     powerPreference: "high-performance"
   });
 
-  renderer.setPixelRatio(1);
   renderer.setClearColor(0x000000, 0);
   renderer.shadowMap.enabled = false;
   if (THREE.sRGBEncoding) {
@@ -196,18 +216,18 @@ function initScrollIntroScene() {
   const initialTarget = new THREE.Vector3(-1.05, 0.1, 0.58);
   const scaleTarget = new THREE.Vector3(1, 1, 1);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 2.35));
+  scene.add(new THREE.AmbientLight(0xffffff, 2.15));
 
-  const sun = new THREE.DirectionalLight(0xffffff, 2.7);
+  const sun = new THREE.DirectionalLight(0xffffff, 2.35);
   sun.position.set(3.5, 7, 4);
   scene.add(sun);
 
-  const cyanLight = new THREE.PointLight(0x38bdf8, 4.5, 12);
-  scene.add(cyanLight);
+  const routeLight = new THREE.PointLight(0x38bdf8, 4.2, 12);
+  scene.add(routeLight);
 
-  const limeLight = new THREE.PointLight(0xd6ff62, 2.1, 10);
-  limeLight.position.set(-2.4, 1.2, 1.9);
-  scene.add(limeLight);
+  const signalLight = new THREE.PointLight(0xd6ff62, 2.1, 10);
+  signalLight.position.set(-2.4, 1.2, 1.9);
+  scene.add(signalLight);
 
   const world = new THREE.Group();
   world.position.y = -0.18;
@@ -216,8 +236,8 @@ function initScrollIntroScene() {
   const ground = new THREE.Mesh(
     new THREE.PlaneGeometry(18, 13),
     new THREE.MeshStandardMaterial({
-      color: 0xc7e4f6,
-      roughness: 0.72,
+      color: 0xf4f7fb,
+      roughness: 0.76,
       metalness: 0.02
     })
   );
@@ -244,23 +264,23 @@ function initScrollIntroScene() {
       color: 0x38bdf8,
       size: 0.055,
       transparent: true,
-      opacity: 0.64,
+      opacity: 0.42,
       depthWrite: false
     })
   ));
 
   const baseMaterial = new THREE.MeshStandardMaterial({
-    color: 0xc7e4f6,
-    emissive: 0x2563eb,
-    emissiveIntensity: 0.08,
+    color: 0xffffff,
+    emissive: 0xe0f7fb,
+    emissiveIntensity: 0.1,
     roughness: 0.48,
     metalness: 0.08
   });
 
   const accentMaterial = new THREE.MeshStandardMaterial({
     color: 0x38bdf8,
-    emissive: 0x2563eb,
-    emissiveIntensity: 0.14,
+    emissive: 0x06b6d4,
+    emissiveIntensity: 0.2,
     roughness: 0.56,
     metalness: 0.04
   });
@@ -276,16 +296,16 @@ function initScrollIntroScene() {
   const activeMaterial = new THREE.MeshStandardMaterial({
     color: 0xd6ff62,
     emissive: 0x38bdf8,
-    emissiveIntensity: 1.2,
+    emissiveIntensity: 1.05,
     roughness: 0.42,
     metalness: 0.05
   });
 
   const outlineMaterial = new THREE.LineBasicMaterial({
-    color: 0x0f3f69,
+    color: 0x18181b,
     transparent: true,
-    opacity: 0.46,
-    depthTest: true,
+    opacity: 0.58,
+    depthTest: false,
     depthWrite: false
   });
 
@@ -368,12 +388,12 @@ function initScrollIntroScene() {
   });
 
   const routePoints = [
-    new THREE.Vector3(-5.8, 0.36, 2.65),
-    new THREE.Vector3(-3.65, 0.38, 1.9),
-    new THREE.Vector3(-1.7, 0.42, 1.12),
-    new THREE.Vector3(0.7, 0.44, -0.55),
-    new THREE.Vector3(3.1, 0.42, -1.38),
-    new THREE.Vector3(5.0, 0.38, -2.3)
+    new THREE.Vector3(-5.8, 0.86, 2.65),
+    new THREE.Vector3(-3.65, 0.88, 1.9),
+    new THREE.Vector3(-1.7, 0.94, 1.12),
+    new THREE.Vector3(0.7, 0.96, -0.55),
+    new THREE.Vector3(3.1, 0.94, -1.38),
+    new THREE.Vector3(5.0, 0.88, -2.3)
   ];
 
   const routeCurve = new THREE.CatmullRomCurve3(routePoints, false, "catmullrom", 0.42);
@@ -381,9 +401,9 @@ function initScrollIntroScene() {
   const dormantLine = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(routeSamples),
     new THREE.LineBasicMaterial({
-      color: 0x60a5fa,
+      color: 0x38bdf8,
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.42,
       depthTest: false,
       depthWrite: false
     })
@@ -412,7 +432,7 @@ function initScrollIntroScene() {
     routeSparkGeometry,
     new THREE.PointsMaterial({
       color: 0xd6ff62,
-      size: 0.075,
+      size: 0.095,
       transparent: true,
       opacity: 0.92,
       depthTest: false,
@@ -455,7 +475,7 @@ function initScrollIntroScene() {
     new THREE.MeshBasicMaterial({
       color: 0x38bdf8,
       transparent: true,
-      opacity: 0.28,
+      opacity: 0.22,
       depthTest: false,
       depthWrite: false
     })
@@ -481,6 +501,17 @@ function initScrollIntroScene() {
   let smoothProgress = 0;
   let pointerX = 0;
   let pointerY = 0;
+  let isSceneVisible = true;
+  let lastRouteEndIndex = -1;
+  let lastTailStart = -1;
+  let lastRenderedStep = -1;
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      isSceneVisible = entries.some((entry) => entry.isIntersecting);
+    }, { threshold: 0 });
+    observer.observe(canvas);
+  }
 
   window.addEventListener("pointermove", (event) => {
     pointerX = (event.clientX / window.innerWidth - 0.5) * 2;
@@ -494,6 +525,8 @@ function initScrollIntroScene() {
   const resize = () => {
     const width = Math.max(canvas.clientWidth, 1);
     const height = Math.max(canvas.clientHeight, 1);
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, width < 760 ? 1.15 : 1.35);
+    renderer.setPixelRatio(pixelRatio);
     renderer.setSize(width, height, false);
 
     const aspect = width / height;
@@ -512,17 +545,25 @@ function initScrollIntroScene() {
   const updateRoute = (progress) => {
     const routeProgress = THREE.MathUtils.clamp((progress - 0.12) / 0.78, 0.001, 1);
     const endIndex = Math.max(2, Math.floor(routeProgress * (routeSamples.length - 1)));
-    glowLine.geometry.setDrawRange(0, endIndex);
-    routeSparks.geometry.setDrawRange(0, endIndex);
-
     const tailStart = Math.max(0, endIndex - 42);
-    tailLine.geometry.setDrawRange(tailStart, Math.max(2, endIndex - tailStart));
+    const routeChanged = endIndex !== lastRouteEndIndex;
+
+    if (routeChanged) {
+      glowLine.geometry.setDrawRange(0, endIndex);
+      routeSparks.geometry.setDrawRange(0, endIndex);
+      lastRouteEndIndex = endIndex;
+    }
+
+    if (tailStart !== lastTailStart || routeChanged) {
+      tailLine.geometry.setDrawRange(tailStart, Math.max(2, endIndex - tailStart));
+      lastTailStart = tailStart;
+    }
 
     const point = routeCurve.getPoint(routeProgress);
     pulse.position.copy(point);
     pulseHalo.position.copy(point);
-    cyanLight.position.set(point.x, 1.35, point.z);
-    limeLight.position.set(point.x - 0.8, 1.1, point.z + 0.8);
+    routeLight.position.set(point.x, 1.35, point.z);
+    signalLight.position.set(point.x - 0.8, 1.1, point.z + 0.8);
 
     return point;
   };
@@ -533,6 +574,12 @@ function initScrollIntroScene() {
 
   const render = () => {
     const elapsed = clock.getElapsedTime();
+
+    if (!isSceneVisible) {
+      requestAnimationFrame(render);
+      return;
+    }
+
     smoothProgress += (targetProgress - smoothProgress) * 0.07;
 
     const point = updateRoute(smoothProgress);
@@ -562,9 +609,13 @@ function initScrollIntroScene() {
 
     pulse.scale.setScalar(1 + Math.sin(elapsed * 5.2) * 0.18);
     pulseHalo.scale.setScalar(1 + Math.sin(elapsed * 3.5) * 0.12);
-    markers.forEach((marker, index) => {
-      marker.material.opacity = index <= activeStep ? 1 : 0.36;
-    });
+
+    if (activeStep !== lastRenderedStep) {
+      markers.forEach((marker, index) => {
+        marker.material.opacity = index <= activeStep ? 1 : 0.36;
+      });
+      lastRenderedStep = activeStep;
+    }
 
     renderer.render(scene, camera);
     requestAnimationFrame(render);
@@ -589,9 +640,10 @@ function initScrollIntroScene() {
 
   function addOutline(mesh) {
     const outline = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry), outlineMaterial);
-    outline.renderOrder = 4;
-    outline.scale.set(1.014, 1.018, 1.014);
-    outline.position.set(0, 0.003, 0);
+    outline.renderOrder = 7;
+    outline.scale.set(1.022, 1.026, 1.022);
+    outline.position.set(0, 0.006, 0);
+    outline.frustumCulled = false;
     mesh.add(outline);
   }
 }
