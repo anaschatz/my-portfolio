@@ -278,19 +278,11 @@ function initScrollIntroScene() {
   });
 
   const accentMaterial = new THREE.MeshStandardMaterial({
-    color: 0x38bdf8,
-    emissive: 0x06b6d4,
-    emissiveIntensity: 0.2,
+    color: 0xffffff,
+    emissive: 0xe0f7fb,
+    emissiveIntensity: 0.06,
     roughness: 0.56,
     metalness: 0.04
-  });
-
-  const glassMaterial = new THREE.MeshStandardMaterial({
-    color: 0xffffff,
-    roughness: 0.2,
-    metalness: 0.03,
-    transparent: true,
-    opacity: 0.58
   });
 
   const activeMaterial = new THREE.MeshStandardMaterial({
@@ -376,17 +368,6 @@ function initScrollIntroScene() {
     }
   }
 
-  const glassPlates = [
-    [-1.7, 1.12, 2.9, 2.4],
-    [0.7, -0.55, 3.3, 2.3],
-    [3.1, -1.38, 2.4, 2.0]
-  ];
-  glassPlates.forEach(([x, z, width, depth]) => {
-    const plate = new THREE.Mesh(new THREE.BoxGeometry(width, 0.035, depth), glassMaterial);
-    plate.position.set(x, 0.045, z);
-    world.add(plate);
-  });
-
   const routePoints = [
     new THREE.Vector3(-5.8, 0.86, 2.65),
     new THREE.Vector3(-3.65, 0.88, 1.9),
@@ -401,9 +382,9 @@ function initScrollIntroScene() {
   const dormantLine = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(routeSamples),
     new THREE.LineBasicMaterial({
-      color: 0x38bdf8,
+      color: 0xcbd5e1,
       transparent: true,
-      opacity: 0.42,
+      opacity: 0.2,
       depthTest: false,
       depthWrite: false
     })
