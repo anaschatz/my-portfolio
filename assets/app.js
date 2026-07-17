@@ -1,79 +1,80 @@
 (function () {
-  if ("scrollRestoration" in window.history) {
-    window.history.scrollRestoration = "manual";
-  }
-
-  window.addEventListener("load", () => {
-    if (!window.location.hash) {
-      window.scrollTo(0, 0);
-      requestAnimationFrame(() => window.ScrollTrigger?.refresh());
-    }
-  }, { once: true });
-
-  const root = document.documentElement;
   const header = document.querySelector("[data-header]");
   const nav = document.querySelector("[data-nav]");
   const menuToggle = document.querySelector("[data-menu-toggle]");
   const intro = document.querySelector("[data-scroll-intro]");
+  const menuLabel = menuToggle?.querySelector(".visually-hidden");
+  const yearTarget = document.querySelector("[data-current-year]");
+
+  if (yearTarget) {
+    yearTarget.textContent = String(new Date().getFullYear());
+  }
 
   const setHeaderState = () => {
-    header?.classList.remove("is-in-intro");
     header?.classList.toggle("is-scrolled", window.scrollY > 12);
   };
 
-  setHeaderState();
-  window.addEventListener("resize", setHeaderState);
-
-  let lastHeaderScrollY = -1;
-  const syncHeaderState = () => {
-    if (Math.abs(window.scrollY - lastHeaderScrollY) > 0.5) {
-      lastHeaderScrollY = window.scrollY;
+  let headerFrame = 0;
+  const queueHeaderState = () => {
+    if (headerFrame) return;
+    headerFrame = requestAnimationFrame(() => {
+      headerFrame = 0;
       setHeaderState();
-    }
-    requestAnimationFrame(syncHeaderState);
-  };
-  syncHeaderState();
-
-  let pointerFrame = 0;
-  let pendingPointerX = 50;
-  let pendingPointerY = 50;
-
-  document.addEventListener("pointermove", (event) => {
-    pendingPointerX = Math.round((event.clientX / window.innerWidth) * 100);
-    pendingPointerY = Math.round((event.clientY / window.innerHeight) * 100);
-
-    if (pointerFrame) {
-      return;
-    }
-
-    pointerFrame = requestAnimationFrame(() => {
-      root.style.setProperty("--pointer-x", `${pendingPointerX}%`);
-      root.style.setProperty("--pointer-y", `${pendingPointerY}%`);
-      pointerFrame = 0;
     });
-  }, { passive: true });
+  };
+
+  setHeaderState();
+  window.addEventListener("scroll", queueHeaderState, { passive: true });
+  window.addEventListener("resize", queueHeaderState);
+
+  const setMenuState = (isOpen, { returnFocus = false } = {}) => {
+    nav?.classList.toggle("is-open", isOpen);
+    menuToggle?.classList.toggle("is-open", isOpen);
+    menuToggle?.setAttribute("aria-expanded", String(isOpen));
+
+    if (menuLabel) {
+      menuLabel.textContent = isOpen ? "Close navigation" : "Open navigation";
+    }
+
+    if (returnFocus) {
+      menuToggle?.focus();
+    }
+  };
 
   menuToggle?.addEventListener("click", () => {
-    const isOpen = nav?.classList.toggle("is-open");
-    menuToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
-    const icon = menuToggle.querySelector("i");
-    if (icon) {
-      icon.setAttribute("data-lucide", isOpen ? "x" : "menu");
-      window.lucide?.createIcons();
-    }
+    const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+    setMenuState(!isOpen);
   });
 
   nav?.addEventListener("click", (event) => {
-    if (event.target instanceof HTMLAnchorElement) {
-      nav.classList.remove("is-open");
-      menuToggle?.setAttribute("aria-expanded", "false");
-      const icon = menuToggle?.querySelector("i");
-      if (icon) {
-        icon.setAttribute("data-lucide", "menu");
-        window.lucide?.createIcons();
-      }
+    if (event.target.closest("a")) {
+      setMenuState(false);
     }
   });
+
+  document.addEventListener("click", (event) => {
+    const isOpen = menuToggle?.getAttribute("aria-expanded") === "true";
+    if (isOpen && header && !header.contains(event.target)) {
+      setMenuState(false);
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && menuToggle?.getAttribute("aria-expanded") === "true") {
+      setMenuState(false, { returnFocus: true });
+    }
+  });
+
+  const desktopQuery = window.matchMedia("(min-width: 761px)");
+  const syncDesktopMenu = (event) => {
+    if (event.matches) setMenuState(false);
+  };
+
+  if (typeof desktopQuery.addEventListener === "function") {
+    desktopQuery.addEventListener("change", syncDesktopMenu);
+  } else {
+    desktopQuery.addListener(syncDesktopMenu);
+  }
 
   window.lucide?.createIcons({
     attrs: {
@@ -81,32 +82,106 @@
     }
   });
 
-  const introScene = initScrollIntroScene();
-  initMotion(introScene);
+  const navSectionLinks = Array.from(nav?.querySelectorAll('a[href^="#"]') || []);
+  const navSections = navSectionLinks
+    .map((link) => {
+      const section = document.querySelector(link.getAttribute("href"));
+      return section ? { link, section } : null;
+    })
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && navSections.length) {
+    const setActiveNav = (activeSection = null) => {
+      navSections.forEach(({ link, section }) => {
+        if (section === activeSection) {
+          link.setAttribute("aria-current", "true");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const navObserver = new IntersectionObserver((entries) => {
+      const activeEntry = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (!activeEntry) {
+        const firstSectionTop = navSections[0].section.offsetTop;
+        if (window.scrollY < firstSectionTop - 120) {
+          setActiveNav();
+        }
+        return;
+      }
+
+      setActiveNav(activeEntry.target);
+    }, {
+      rootMargin: "-22% 0px -66% 0px",
+      threshold: [0, 0.2, 0.6]
+    });
+
+    navSections.forEach(({ section }) => navObserver.observe(section));
+  }
+
+  let introScene = null;
+  try {
+    introScene = initScrollIntroScene();
+  } catch (error) {
+    console.warn("The 3D intro could not start; using the motion fallback.", error);
+    intro?.classList.add("scene-fallback");
+  }
+
+  try {
+    initMotion(introScene);
+  } catch (error) {
+    console.warn("Scroll motion could not start; showing the complete static layout.", error);
+    activateStaticMotionFallback();
+  }
 })();
+
+function activateStaticMotionFallback() {
+  document.querySelectorAll("[data-reveal]").forEach((item) => {
+    item.style.opacity = "1";
+    item.style.transform = "none";
+  });
+
+  document.querySelector("[data-scroll-intro]")?.classList.add("is-static");
+
+  const processPanel = document.querySelector("[data-process-panel]");
+  if (processPanel) {
+    processPanel.style.opacity = "1";
+    processPanel.style.transform = "none";
+  }
+
+  const progressFill = document.querySelector("[data-intro-progress]");
+  if (progressFill) {
+    progressFill.style.transform = "scaleX(1)";
+  }
+
+  const progressStage = document.querySelector("[data-intro-stage]");
+  if (progressStage) {
+    progressStage.textContent = "04";
+  }
+}
 
 function initMotion(introScene) {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const revealItems = document.querySelectorAll("[data-reveal]");
   const intro = document.querySelector("[data-scroll-intro]");
   const introHero = document.querySelector("[data-intro-hero]");
   const processPanel = document.querySelector("[data-process-panel]");
   const processSteps = Array.from(document.querySelectorAll(".process-step"));
+  const progressFill = document.querySelector("[data-intro-progress]");
+  const progressStage = document.querySelector("[data-intro-stage]");
+  const atmosphere = document.querySelector(".intro-atmosphere");
 
   if (reduceMotion || !window.gsap || !window.ScrollTrigger) {
-    revealItems.forEach((item) => {
-      item.style.opacity = "1";
-      item.style.transform = "none";
-    });
-    intro?.classList.add("is-static");
-    if (processPanel) {
-      processPanel.style.opacity = "1";
-      processPanel.style.transform = "none";
-    }
+    activateStaticMotionFallback();
     return;
   }
 
   window.gsap.registerPlugin(window.ScrollTrigger);
+  const animatedRevealItems = window.gsap.utils.toArray("[data-reveal]");
+  window.gsap.set(animatedRevealItems, { opacity: 0, y: 24 });
 
   if (intro) {
     let activeStepIndex = -1;
@@ -122,6 +197,14 @@ function initMotion(introScene) {
         });
       }
 
+      if (progressFill) {
+        progressFill.style.transform = `scaleX(${progress})`;
+      }
+
+      if (progressStage) {
+        progressStage.textContent = String(activeIndex + 1).padStart(2, "0");
+      }
+
       if (introHero) {
         introHero.style.pointerEvents = progress > 0.22 ? "none" : "auto";
       }
@@ -135,19 +218,29 @@ function initMotion(introScene) {
         trigger: intro,
         start: "top top",
         end: "bottom bottom",
-        scrub: 0.8,
+        scrub: 0.72,
+        fastScrollEnd: true,
+        invalidateOnRefresh: true,
         onUpdate: (self) => syncIntroProgress(self.progress),
         onRefresh: (self) => syncIntroProgress(self.progress)
       }
     });
 
+    if (atmosphere) {
+      introTimeline.to(atmosphere, {
+        scale: 1.14,
+        autoAlpha: 0.76,
+        duration: 1
+      }, 0);
+    }
+
     if (introHero) {
       introTimeline.to(introHero, {
         autoAlpha: 0,
-        "--hero-y": "-78px",
-        "--hero-scale": 0.96,
+        "--hero-y": "-92px",
+        "--hero-scale": 0.94,
         duration: 0.14
-      }, 0.08);
+      }, 0.06);
     }
 
     if (processPanel) {
@@ -155,24 +248,30 @@ function initMotion(introScene) {
         .to(processPanel, {
           autoAlpha: 1,
           "--process-x": "0px",
-          duration: 0.08
-        }, 0.16)
+          "--process-scale": 1,
+          duration: 0.13
+        }, 0.17)
         .to(processPanel, {
           autoAlpha: 0,
-          "--process-x": "-18px",
-          duration: 0.05
-        }, 0.93);
+          "--process-x": "-26px",
+          "--process-scale": 0.98,
+          duration: 0.08
+        }, 0.9);
     }
 
     syncIntroProgress(0);
   }
 
-  window.gsap.utils.toArray("[data-reveal]").forEach((item) => {
-    window.gsap.to(item, {
+  animatedRevealItems.forEach((item) => {
+    window.gsap.fromTo(item, {
+      opacity: 0,
+      y: 24
+    }, {
       opacity: 1,
       y: 0,
       duration: 0.72,
       ease: "power3.out",
+      immediateRender: false,
       scrollTrigger: {
         trigger: item,
         start: "top 86%",
@@ -478,11 +577,65 @@ function initScrollIntroScene() {
     return marker;
   });
 
+  const signalRings = routePoints.slice(2).map((point) => {
+    const signalRing = new THREE.Mesh(
+      new THREE.RingGeometry(0.22, 0.26, 40),
+      new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.16,
+        side: THREE.DoubleSide,
+        depthTest: false,
+        depthWrite: false
+      })
+    );
+    signalRing.rotation.x = -Math.PI / 2;
+    signalRing.position.set(point.x, 0.068, point.z);
+    signalRing.renderOrder = 12;
+    world.add(signalRing);
+    return signalRing;
+  });
+
+  const trailBeads = Array.from({ length: 5 }, (_, index) => {
+    const bead = new THREE.Mesh(
+      new THREE.SphereGeometry(Math.max(0.035, 0.085 - index * 0.01), 12, 12),
+      new THREE.MeshBasicMaterial({
+        color: index < 2 ? 0xd6ff62 : 0x38bdf8,
+        transparent: true,
+        opacity: 0.78 - index * 0.1,
+        depthTest: false,
+        depthWrite: false
+      })
+    );
+    bead.renderOrder = 12;
+    world.add(bead);
+    return bead;
+  });
+
+  const pulseRing = new THREE.Mesh(
+    new THREE.RingGeometry(0.25, 0.3, 48),
+    new THREE.MeshBasicMaterial({
+      color: 0xd6ff62,
+      transparent: true,
+      opacity: 0.65,
+      side: THREE.DoubleSide,
+      depthTest: false,
+      depthWrite: false
+    })
+  );
+  pulseRing.rotation.x = -Math.PI / 2;
+  pulseRing.renderOrder = 14;
+  world.add(pulseRing);
+
   let targetProgress = 0;
   let smoothProgress = 0;
   let pointerX = 0;
   let pointerY = 0;
+  let targetPointerX = 0;
+  let targetPointerY = 0;
   let isSceneVisible = true;
+  let renderFrame = 0;
+  let lastFrameTime = 0;
   let lastRouteEndIndex = -1;
   let lastTailStart = -1;
   let lastRenderedStep = -1;
@@ -490,17 +643,28 @@ function initScrollIntroScene() {
   if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver((entries) => {
       isSceneVisible = entries.some((entry) => entry.isIntersecting);
+      if (isSceneVisible) {
+        startRendering();
+      }
     }, { threshold: 0 });
     observer.observe(canvas);
   }
 
   window.addEventListener("pointermove", (event) => {
-    pointerX = (event.clientX / window.innerWidth - 0.5) * 2;
-    pointerY = (event.clientY / window.innerHeight - 0.5) * 2;
+    if (!isSceneVisible) return;
+    targetPointerX = (event.clientX / window.innerWidth - 0.5) * 2;
+    targetPointerY = (event.clientY / window.innerHeight - 0.5) * 2;
   }, { passive: true });
+
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      startRendering();
+    }
+  });
 
   const setProgress = (progress) => {
     targetProgress = Math.max(0, Math.min(1, progress));
+    startRendering();
   };
 
   const resize = () => {
@@ -543,8 +707,17 @@ function initScrollIntroScene() {
     const point = routeCurve.getPoint(routeProgress);
     pulse.position.copy(point);
     pulseHalo.position.copy(point);
+    pulseRing.position.copy(point);
+    pulseRing.position.y += 0.03;
     routeLight.position.set(point.x, 1.35, point.z);
     signalLight.position.set(point.x - 0.8, 1.1, point.z + 0.8);
+
+    trailBeads.forEach((bead, index) => {
+      const beadProgress = Math.max(0.001, routeProgress - (index + 1) * 0.018);
+      const beadPoint = routeCurve.getPoint(beadProgress);
+      bead.position.copy(beadPoint);
+      bead.visible = routeProgress > (index + 1) * 0.018;
+    });
 
     return point;
   };
@@ -553,43 +726,78 @@ function initScrollIntroScene() {
 
   const clock = new THREE.Clock();
 
-  const render = () => {
-    const elapsed = clock.getElapsedTime();
+  const render = (frameTime = 0) => {
+    renderFrame = 0;
+    if (!isSceneVisible || document.hidden) return;
 
-    if (!isSceneVisible) {
-      requestAnimationFrame(render);
+    const frameInterval = 1000 / (window.innerWidth < 760 ? 45 : 55);
+    if (lastFrameTime && frameTime - lastFrameTime < frameInterval) {
+      startRendering();
       return;
     }
+    lastFrameTime = frameTime;
 
-    smoothProgress += (targetProgress - smoothProgress) * 0.07;
+    const delta = Math.min(clock.getDelta(), 0.05);
+    const elapsed = clock.elapsedTime;
+    const progressDamping = 1 - Math.exp(-10 * delta);
+    const pointerDamping = 1 - Math.exp(-7 * delta);
+    const cameraDamping = 1 - Math.exp(-6.5 * delta);
+
+    smoothProgress += (targetProgress - smoothProgress) * progressDamping;
+    pointerX += (targetPointerX - pointerX) * pointerDamping;
+    pointerY += (targetPointerY - pointerY) * pointerDamping;
 
     const point = updateRoute(smoothProgress);
     const sceneProgress = THREE.MathUtils.clamp((smoothProgress - 0.16) / 0.72, 0, 1);
     cameraTarget.lerpVectors(initialTarget, point, sceneProgress);
-    smoothTarget.lerp(cameraTarget, 0.08);
+    smoothTarget.lerp(cameraTarget, cameraDamping);
 
     const lift = window.innerWidth < 760 ? 0.78 : 0;
+    const travelArc = Math.sin(sceneProgress * Math.PI);
     camera.position.set(
-      smoothTarget.x + cameraOffset.x + pointerX * 0.14,
-      smoothTarget.y + cameraOffset.y + lift,
-      smoothTarget.z + cameraOffset.z - pointerY * 0.12
+      smoothTarget.x + cameraOffset.x - sceneProgress * 0.55 + pointerX * 0.18,
+      smoothTarget.y + cameraOffset.y + lift + travelArc * 0.22,
+      smoothTarget.z + cameraOffset.z + Math.sin(sceneProgress * Math.PI * 2) * 0.2 - pointerY * 0.16
     );
     camera.lookAt(smoothTarget);
 
-    world.rotation.y = -0.12 + pointerX * 0.015;
+    const nextZoom = 1 + travelArc * 0.055;
+    if (Math.abs(camera.zoom - nextZoom) > 0.0005) {
+      camera.zoom = nextZoom;
+      camera.updateProjectionMatrix();
+    }
+
+    world.rotation.y = -0.14 + sceneProgress * 0.08 + pointerX * 0.022;
+    world.position.y = -0.18 + travelArc * 0.06;
     aiSymbol.rotation.x = elapsed * 0.85;
     aiSymbol.rotation.y = elapsed * 1.1;
     ring.rotation.z = elapsed * 0.55;
 
     const activeStep = Math.min(3, Math.max(0, Math.floor(THREE.MathUtils.clamp((smoothProgress - 0.2) / 0.67, 0, 0.999) * 4)));
     stepGroups.forEach((group, index) => {
-      const targetScale = index === activeStep ? 1.16 : 1;
+      const isActive = index === activeStep;
+      const targetScale = isActive ? 1.19 : 1;
       scaleTarget.setScalar(targetScale);
-      group.scale.lerp(scaleTarget, 0.08);
+      group.scale.lerp(scaleTarget, progressDamping * 0.9);
+      group.position.y += ((isActive ? 0.1 : 0) - group.position.y) * progressDamping;
+      group.rotation.y += ((isActive ? Math.sin(elapsed * 1.5) * 0.025 : 0) - group.rotation.y) * progressDamping;
     });
 
     pulse.scale.setScalar(1 + Math.sin(elapsed * 5.2) * 0.18);
     pulseHalo.scale.setScalar(1 + Math.sin(elapsed * 3.5) * 0.12);
+    pulseHalo.material.opacity = 0.18 + Math.sin(elapsed * 3.5) * 0.05;
+    pulseRing.scale.setScalar(1.05 + Math.sin(elapsed * 4.2) * 0.18);
+    pulseRing.material.opacity = 0.48 + Math.sin(elapsed * 4.2) * 0.14;
+    routeLight.intensity = 4 + Math.sin(elapsed * 3.2) * 0.45;
+
+    signalRings.forEach((signalRing, index) => {
+      const isActive = index === activeStep;
+      const targetScale = isActive ? 1.45 + Math.sin(elapsed * 3.4) * 0.12 : 1;
+      const nextScale = signalRing.scale.x + (targetScale - signalRing.scale.x) * progressDamping;
+      const targetOpacity = isActive ? 0.62 : index < activeStep ? 0.28 : 0.1;
+      signalRing.scale.setScalar(nextScale);
+      signalRing.material.opacity += (targetOpacity - signalRing.material.opacity) * progressDamping;
+    });
 
     if (activeStep !== lastRenderedStep) {
       markers.forEach((marker, index) => {
@@ -599,10 +807,16 @@ function initScrollIntroScene() {
     }
 
     renderer.render(scene, camera);
-    requestAnimationFrame(render);
+    startRendering();
   };
 
-  render();
+  function startRendering() {
+    if (!renderFrame && isSceneVisible && !document.hidden) {
+      renderFrame = requestAnimationFrame(render);
+    }
+  }
+
+  startRendering();
 
   return { setProgress };
 
