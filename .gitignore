@@ -1,2 +1,4 @@
+node_modules/
+dist/
+.lighthouse/
 .DS_Store
-*.log

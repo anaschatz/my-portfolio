@@ -1,386 +1,875 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Portfolio of Anastasis Chatzidakis, a DMST student at AUEB building AI-assisted media systems, mobile products, and financial analysis tools.">
-  <meta name="theme-color" content="#fafafa">
-  <meta name="color-scheme" content="light">
-  <link rel="canonical" href="https://anaschatz.github.io/my-portfolio/">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Anastasis Chatzidakis | Software &amp; AI Systems">
-  <meta property="og:description" content="AI-assisted media systems, mobile products, and analytical tools built in Athens.">
-  <meta property="og:url" content="https://anaschatz.github.io/my-portfolio/">
-  <meta name="twitter:card" content="summary">
-  <title>Anastasis Chatzidakis | Software &amp; AI Systems</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230891b2'/%3E%3Cpath d='M16 46 28 17h8l12 29h-8l-2.5-7H26.3L24 46h-8Zm13-14h6l-3-9-3 9Z' fill='white'/%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-  <link rel="stylesheet" href="assets/styles.css?v=scroll-polish-3">
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Anastasis Chatzidakis",
-      "url": "https://anaschatz.github.io/my-portfolio/",
-      "email": "mailto:t8240165@aueb.gr",
-      "sameAs": ["https://github.com/anaschatz"],
-      "affiliation": {
-        "@type": "CollegeOrUniversity",
-        "name": "Athens University of Economics and Business"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio of Anastasis Chatzidakis, a second-year DMST student at AUEB building backend workflows, AI-assisted media systems, and mobile products."
+    />
+    <meta name="theme-color" content="#fafafa" />
+    <meta name="color-scheme" content="light" />
+    <link rel="canonical" href="https://anaschatz.github.io/my-portfolio/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:site_name"
+      content="Anastasis Chatzidakis · Engineering Portfolio"
+    />
+    <meta
+      property="og:title"
+      content="Anastasis Chatzidakis · Backend, AI &amp; Product Engineering"
+    />
+    <meta
+      property="og:description"
+      content="Evidence-driven systems across AI media pipelines, mobile products, and financial software."
+    />
+    <meta
+      property="og:url"
+      content="https://anaschatz.github.io/my-portfolio/"
+    />
+    <meta
+      property="og:image"
+      content="https://anaschatz.github.io/my-portfolio/assets/social-preview.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Anastasis Chatzidakis engineering portfolio homepage"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Anastasis Chatzidakis · Engineering Portfolio"
+    />
+    <meta
+      name="twitter:description"
+      content="Backend workflows, AI-assisted media systems, and mobile products."
+    />
+    <meta
+      name="twitter:image"
+      content="https://anaschatz.github.io/my-portfolio/assets/social-preview.png"
+    />
+    <title>Anastasis Chatzidakis · Backend, AI &amp; Product Engineering</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link
+      rel="preload"
+      href="assets/fonts/archivo-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="assets/fonts/space-grotesk-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="assets/styles.css?v=portfolio-5" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://anaschatz.github.io/my-portfolio/#person",
+            "name": "Anastasis Chatzidakis",
+            "url": "https://anaschatz.github.io/my-portfolio/",
+            "email": "mailto:t8240165@aueb.gr",
+            "sameAs": ["https://github.com/anaschatz"],
+            "affiliation": {
+              "@type": "CollegeOrUniversity",
+              "name": "Athens University of Economics and Business"
+            }
+          },
+          {
+            "@type": "ItemList",
+            "name": "Selected software projects",
+            "itemListElement": [
+              {
+                "@type": "SoftwareSourceCode",
+                "position": 1,
+                "name": "ShortsEngine",
+                "codeRepository": "https://github.com/anaschatz/Shorts-Engine",
+                "programmingLanguage": ["JavaScript", "Python"]
+              },
+              {
+                "@type": "SoftwareSourceCode",
+                "position": 2,
+                "name": "Gym App",
+                "codeRepository": "https://github.com/anaschatz/gym-app",
+                "programmingLanguage": "TypeScript"
+              },
+              {
+                "@type": "SoftwareSourceCode",
+                "position": 3,
+                "name": "FinDet",
+                "codeRepository": "https://github.com/anaschatz/FinDet",
+                "programmingLanguage": "Java"
+              },
+              {
+                "@type": "SoftwareSourceCode",
+                "position": 4,
+                "name": "Budgeting App",
+                "codeRepository": "https://github.com/anaschatz/budgeting-app",
+                "programmingLanguage": "Swift"
+              }
+            ]
+          }
+        ]
       }
-    }
-  </script>
-</head>
-<body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <header class="site-header" data-header>
-    <a class="brand-mark" href="#top" aria-label="Anastasis Chatzidakis home">
-      <span>AS</span>
-      <strong>DMST AUEB</strong>
-    </a>
+    <header class="site-header" data-header>
+      <a class="brand-mark" href="#top" aria-label="Anastasis Chatzidakis home">
+        <span>AS</span>
+        <strong>DMST · AUEB</strong>
+      </a>
 
-    <button class="icon-button menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav">
-      <i class="menu-icon-open" data-lucide="menu" aria-hidden="true"></i>
-      <i class="menu-icon-close" data-lucide="x" aria-hidden="true"></i>
-      <span class="visually-hidden">Open navigation</span>
-    </button>
+      <button
+        class="icon-button menu-toggle"
+        type="button"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="site-nav"
+      >
+        <i class="menu-icon-open" data-lucide="menu" aria-hidden="true"></i>
+        <i class="menu-icon-close" data-lucide="x" aria-hidden="true"></i>
+        <span class="visually-hidden">Open navigation</span>
+      </button>
 
-    <nav class="site-nav" id="site-nav" data-nav aria-label="Primary navigation">
-      <a href="#projects">Projects</a>
-      <a href="#stack">Stack</a>
-      <a href="#momentum">Approach</a>
-      <a href="#contact">Contact</a>
-      <a href="https://github.com/anaschatz" target="_blank" rel="noopener noreferrer">GitHub</a>
-    </nav>
-  </header>
+      <nav
+        class="site-nav"
+        id="site-nav"
+        data-nav
+        aria-label="Primary navigation"
+      >
+        <a href="#projects">Work</a>
+        <a href="#shorts-engine-case-study">Case study</a>
+        <a href="#stack">Skills</a>
+        <a href="#about">About</a>
+        <a
+          href="https://github.com/anaschatz"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub</a
+        >
+      </nav>
+    </header>
 
-  <main id="main-content" tabindex="-1">
-    <section class="scroll-intro" id="top" aria-labelledby="hero-title" data-scroll-intro>
-      <div class="intro-sticky">
-        <canvas id="intro-canvas" aria-hidden="true"></canvas>
-        <div class="intro-atmosphere" aria-hidden="true"></div>
-        <div class="intro-progress" aria-hidden="true">
-          <span>Build route</span>
-          <i><b data-intro-progress></b></i>
-          <strong data-intro-stage>01</strong>
+    <main id="main-content" tabindex="-1">
+      <section
+        class="scroll-intro"
+        id="top"
+        aria-labelledby="hero-title"
+        data-scroll-intro
+      >
+        <div class="intro-sticky">
+          <canvas id="intro-canvas" aria-hidden="true"></canvas>
+          <div class="intro-atmosphere" aria-hidden="true"></div>
+          <div class="intro-progress" aria-hidden="true">
+            <span>Build route</span>
+            <i><b data-intro-progress></b></i>
+            <strong data-intro-stage>01</strong>
+          </div>
+
+          <div class="intro-copy intro-hero" data-intro-hero>
+            <p class="eyebrow">Second-year DMST student · Athens</p>
+            <h1 id="hero-title">Anastasis Chatzidakis</h1>
+            <p class="hero-lede">
+              I build backend workflows, AI-assisted media systems, and mobile
+              products—with a focus on observable behavior, safe failure, and
+              evidence that the output actually works.
+            </p>
+
+            <div
+              class="hero-actions"
+              role="group"
+              aria-label="Portfolio actions"
+            >
+              <a class="primary-action" href="#projects">
+                <i data-lucide="arrow-down-right" aria-hidden="true"></i>
+                See selected work
+              </a>
+              <a
+                class="secondary-action"
+                href="https://github.com/anaschatz"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i data-lucide="github" aria-hidden="true"></i>
+                GitHub
+                <span class="visually-hidden">(opens in a new tab)</span>
+              </a>
+              <a class="secondary-action" href="mailto:t8240165@aueb.gr">
+                <i data-lucide="mail" aria-hidden="true"></i>
+                Email
+              </a>
+            </div>
+
+            <p class="scroll-cue">Scroll through the systems</p>
+          </div>
+
+          <div
+            class="intro-process"
+            data-process-panel
+            role="group"
+            aria-label="Portfolio build process"
+          >
+            <h2 class="visually-hidden">How the work connects</h2>
+            <ol class="process-list">
+              <li class="process-step is-active" data-step="0">
+                <span class="process-index">01</span>
+                <div>
+                  <h3>Evidence-gated media</h3>
+                  <p>
+                    Three content workflows share one job model, deterministic
+                    render path, and explicit release gate.
+                  </p>
+                </div>
+              </li>
+              <li class="process-step" data-step="1">
+                <span class="process-index">02</span>
+                <div>
+                  <h3>Local-first mobile</h3>
+                  <p>
+                    Useful training and nutrition workflows stay available
+                    on-device without an account or backend.
+                  </p>
+                </div>
+              </li>
+              <li class="process-step" data-step="2">
+                <span class="process-index">03</span>
+                <div>
+                  <h3>Financial software</h3>
+                  <p>
+                    Java and Swift projects separate domain logic, persistence,
+                    presentation, and verification.
+                  </p>
+                </div>
+              </li>
+              <li class="process-step" data-step="3">
+                <span class="process-index">04</span>
+                <div>
+                  <h3>Inspect, test, improve</h3>
+                  <p>
+                    Tests, visual QA, documented tradeoffs, and honest
+                    limitations keep ambitious prototypes credible.
+                  </p>
+                </div>
+              </li>
+            </ol>
+          </div>
         </div>
+      </section>
 
-        <div class="intro-copy intro-hero" data-intro-hero>
-          <p class="eyebrow">DMST AUEB / AI systems / mobile products</p>
-          <h1 id="hero-title">Anastasis Chatzidakis</h1>
-          <p class="hero-lede">
-            A second-year Management Science and Technology student building AI-assisted media systems,
-            mobile products, and analytical tools.
-          </p>
-
-          <div class="hero-actions" aria-label="Portfolio actions">
-            <a class="primary-action" href="#projects">
-              <i data-lucide="sparkles" aria-hidden="true"></i>
-              View projects
-            </a>
-            <a class="secondary-action" href="https://github.com/anaschatz" target="_blank" rel="noopener noreferrer">
-              <i data-lucide="code-2" aria-hidden="true"></i>
-              View GitHub
-            </a>
-          </div>
-
-          <p class="scroll-cue">Scroll the route</p>
-        </div>
-
-        <div class="intro-process" data-process-panel aria-label="Portfolio build process">
-          <h2 class="visually-hidden">How I build</h2>
-          <ol class="process-list">
-            <li class="process-step is-active" data-step="0">
-              <span class="process-index">01</span>
-              <div>
-                <h3>AI-assisted media engine</h3>
-                <p>ShortsEngine turns source media or structured ideas into verified vertical video through three distinct production workflows.</p>
-              </div>
-            </li>
-            <li class="process-step" data-step="1">
-              <span class="process-index">02</span>
-              <div>
-                <h3>Mobile training product</h3>
-                <p>A React Native gym tracker for workouts, nutrition, bodyweight, local persistence, and progress analytics.</p>
-              </div>
-            </li>
-            <li class="process-step" data-step="2">
-              <span class="process-index">03</span>
-              <div>
-                <h3>Financial systems</h3>
-                <p>FinDet and a modular Swift budgeting app turn structured financial data into safer, clearer decisions.</p>
-              </div>
-            </li>
-            <li class="process-step" data-step="3">
-              <span class="process-index">04</span>
-              <div>
-                <h3>Quality and iteration</h3>
-                <p>Focused tests, deterministic outputs, visual QA, and documented decisions make ambitious prototypes inspectable.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </section>
-
-    <section class="profile-strip" aria-label="Portfolio highlights">
-      <div>
-        <span>01</span>
-        <strong>Three production workflows</strong>
-        <p>Football, motivational, and original animated Shorts inside one rights-aware media engine.</p>
-      </div>
-      <div>
-        <span>02</span>
-        <strong>Local-first mobile product</strong>
-        <p>Workout, nutrition, bodyweight, and progress analytics built with React Native and Expo.</p>
-      </div>
-      <div>
-        <span>03</span>
-        <strong>99% backend test coverage</strong>
-        <p>Core financial logic verified in a Java 21 Greek State Budget analysis application.</p>
-      </div>
-    </section>
-
-    <section class="section-wrap project-section" id="projects" aria-labelledby="projects-title">
-      <div class="section-heading" data-reveal>
-        <p class="eyebrow">Selected work</p>
-        <h2 id="projects-title">Real systems, open for inspection.</h2>
-        <p>
-          Selected directly from my public GitHub: an AI media engine, a mobile training product,
-          and financial tools across Java and Swift.
-        </p>
-      </div>
-
-      <div class="project-grid">
-        <article class="project-card feature-card" data-reveal>
-          <div class="project-visual shorts-visual" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="project-body">
-            <div class="project-kicker">
-              <i data-lucide="film" aria-hidden="true"></i>
-              Flagship / AI media system
-            </div>
-            <h3>ShortsEngine</h3>
-            <p>
-              An AI-assisted production engine for quality-checked vertical video, combining
-              domain-aware analysis, deterministic rendering, visual verification, recovery,
-              and guarded publishing.
-            </p>
-            <ul class="tag-list" aria-label="ShortsEngine technologies and highlights">
-              <li>Node.js</li>
-              <li>FFmpeg</li>
-              <li>Playwright</li>
-              <li>120+ test files</li>
-            </ul>
-            <a class="project-link" href="https://github.com/anaschatz/Shorts-Engine" target="_blank" rel="noopener noreferrer">
-              Explore ShortsEngine
-              <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-              <span class="visually-hidden">(opens in a new tab)</span>
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card" data-reveal>
-          <div class="project-visual gym-visual" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="project-body">
-            <div class="project-kicker">
-              <i data-lucide="activity" aria-hidden="true"></i>
-              Mobile / Personal product
-            </div>
-            <h3>Gym App</h3>
-            <p>
-              A local-first personal tracker for workouts, nutrition, bodyweight, and weekly
-              analytics, with RPE logging, rest timers, plate calculations, and theme support.
-            </p>
-            <ul class="tag-list" aria-label="Gym App technologies">
-              <li>React Native</li>
-              <li>Expo</li>
-              <li>TypeScript</li>
-              <li>AsyncStorage</li>
-            </ul>
-            <a class="project-link" href="https://github.com/anaschatz/gym-app" target="_blank" rel="noopener noreferrer">
-              Explore Gym App
-              <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-              <span class="visually-hidden">(opens in a new tab)</span>
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card" data-reveal>
-          <div class="project-visual budget-visual" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="project-body">
-            <div class="project-kicker">
-              <i data-lucide="landmark" aria-hidden="true"></i>
-              Data / Team semester project
-            </div>
-            <h3>FinDet</h3>
-            <p>
-              A Java 21 application for hierarchical Greek State Budget analysis, multi-year
-              visualization, and safe “what-if” fiscal adjustments with SQLite persistence.
-            </p>
-            <ul class="tag-list" aria-label="FinDet technologies and highlights">
-              <li>JavaFX</li>
-              <li>SQLite</li>
-              <li>JUnit</li>
-              <li>99% backend coverage</li>
-            </ul>
-            <a class="project-link" href="https://github.com/anaschatz/FinDet" target="_blank" rel="noopener noreferrer">
-              Explore FinDet
-              <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-              <span class="visually-hidden">(opens in a new tab)</span>
-            </a>
-          </div>
-        </article>
-
-        <article class="project-card wide-card" data-reveal>
-          <div class="project-visual swift-visual" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-          <div class="project-body">
-            <div class="project-kicker">
-              <i data-lucide="wallet" aria-hidden="true"></i>
-              Swift / In development
-            </div>
-            <h3>Budgeting App</h3>
-            <p>
-              A modular Swift budgeting codebase separated across domain, data entry,
-              persistence, presentation, security, widget support, composition, and performance testing.
-            </p>
-            <ul class="tag-list" aria-label="Budgeting App technologies">
-              <li>Swift</li>
-              <li>Domain architecture</li>
-              <li>Widget support</li>
-              <li>Testing</li>
-            </ul>
-            <a class="project-link" href="https://github.com/anaschatz/budgeting-app" target="_blank" rel="noopener noreferrer">
-              Explore Budgeting App
-              <i data-lucide="arrow-up-right" aria-hidden="true"></i>
-              <span class="visually-hidden">(opens in a new tab)</span>
-            </a>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="stack-band" id="stack" aria-labelledby="stack-title">
-      <div class="section-wrap stack-layout">
-        <div class="section-heading compact-heading" data-reveal>
-          <p class="eyebrow">Working stack</p>
-          <h2 id="stack-title">Tools chosen around the problem.</h2>
+      <section class="profile-strip" aria-label="Portfolio highlights">
+        <div>
+          <span>Current focus</span>
+          <strong>Backend and AI systems</strong>
           <p>
-            From media processing and visual QA to mobile state and financial data,
-            the stack changes while the focus on useful, verifiable output stays constant.
+            Job orchestration, media processing, provider boundaries, and
+            failure-aware workflows.
+          </p>
+        </div>
+        <div>
+          <span>Flagship scope</span>
+          <strong>3 production workflows</strong>
+          <p>
+            Football, motivational, and original animated Shorts inside one
+            evidence-gated engine.
+          </p>
+        </div>
+        <div>
+          <span>Seeking</span>
+          <strong>Internship opportunities</strong>
+          <p>
+            Teams where I can contribute, learn quickly, and take ownership of a
+            real engineering problem.
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="section-wrap project-section"
+        id="projects"
+        aria-labelledby="projects-title"
+      >
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Selected work</p>
+          <h2 id="projects-title">Systems with decisions you can inspect.</h2>
+          <p>
+            Four public repositories, presented by the problem each one
+            addresses, the tradeoffs I made, and its current level of maturity.
           </p>
         </div>
 
-        <div class="skill-matrix" data-reveal>
-          <div>
-            <span>AI &amp; media</span>
-            <strong>Node.js, FFmpeg, Playwright, Faster-Whisper</strong>
+        <div class="project-grid" data-project-grid aria-live="polite"></div>
+        <noscript>
+          <p class="project-empty">
+            JavaScript is needed for the project cards. The repositories remain
+            available on
+            <a href="https://github.com/anaschatz">GitHub</a>.
+          </p>
+        </noscript>
+      </section>
+
+      <section
+        class="case-study"
+        id="shorts-engine-case-study"
+        aria-labelledby="case-study-title"
+      >
+        <div class="section-wrap">
+          <header class="case-study-header" data-reveal>
+            <div>
+              <p class="eyebrow">Flagship case study · ShortsEngine</p>
+              <h2 id="case-study-title">
+                A video is not done just because it rendered.
+              </h2>
+            </div>
+            <div class="case-study-summary">
+              <span class="status-chip">Production-hardening prototype</span>
+              <p>
+                ShortsEngine explores how an AI-assisted media pipeline can keep
+                claims, source evidence, render artifacts, review decisions, and
+                release state connected from ingest to export.
+              </p>
+              <div
+                class="inline-links"
+                role="group"
+                aria-label="ShortsEngine links"
+              >
+                <a
+                  href="https://github.com/anaschatz/Shorts-Engine"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Repository
+                  <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+                </a>
+                <a
+                  href="https://github.com/anaschatz/Shorts-Engine/blob/main/SHOWCASE.md"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Verified showcase
+                  <i data-lucide="arrow-up-right" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+          </header>
+
+          <div class="case-study-grid case-study-intro" data-reveal>
+            <article>
+              <p class="case-label">Problem</p>
+              <h3>
+                Generated metadata can say “success” while the video is visibly
+                wrong.
+              </h3>
+              <p>
+                A production tool has to validate the artifact, preserve
+                provenance, surface uncertainty, and stop unsafe or
+                low-confidence results before publishing—not only produce an
+                MP4.
+              </p>
+            </article>
+            <article>
+              <p class="case-label">My role</p>
+              <h3>
+                Product direction, architecture, implementation, evaluation, and
+                iteration.
+              </h3>
+              <p>
+                I built the project as an undergraduate research prototype. I
+                used Codex as an implementation and review accelerator; I owned
+                the product decisions, system boundaries, verification criteria,
+                tests, and the decision to accept or reject each change.
+              </p>
+            </article>
           </div>
-          <div>
-            <span>Mobile</span>
-            <strong>React Native, Expo, TypeScript, Swift</strong>
+
+          <div class="case-block" data-reveal>
+            <div class="case-block-heading">
+              <p class="case-label">End-to-end workflow</p>
+              <h3>
+                One job model, three production paths, one release decision.
+              </h3>
+            </div>
+            <ol class="workflow-list" aria-label="ShortsEngine workflow">
+              <li>
+                <span>01</span><strong>Ingest</strong>
+                <p>
+                  Accept local media or structured inputs and validate file,
+                  path, and request boundaries.
+                </p>
+              </li>
+              <li>
+                <span>02</span><strong>Route</strong>
+                <p>
+                  Select football, motivational editorial, or original narrated
+                  animation workflow.
+                </p>
+              </li>
+              <li>
+                <span>03</span><strong>Analyze</strong>
+                <p>
+                  Run domain-specific extraction behind provider contracts and
+                  record evidence.
+                </p>
+              </li>
+              <li>
+                <span>04</span><strong>Plan</strong>
+                <p>
+                  Create a validated edit plan rather than sending untrusted
+                  model output directly to rendering.
+                </p>
+              </li>
+              <li>
+                <span>05</span><strong>Render</strong>
+                <p>
+                  Produce deterministic vertical-video artifacts through FFmpeg
+                  and animation tooling.
+                </p>
+              </li>
+              <li>
+                <span>06</span><strong>Verify</strong>
+                <p>
+                  Run rendered QA, route uncertainty to human review, and fail
+                  closed when evidence is incomplete.
+                </p>
+              </li>
+              <li>
+                <span>07</span><strong>Release</strong>
+                <p>
+                  Export only an approved artifact with its review and
+                  verification evidence attached.
+                </p>
+              </li>
+            </ol>
           </div>
-          <div>
-            <span>Data systems</span>
-            <strong>Java 21, JavaFX, SQLite, hierarchical models</strong>
+
+          <div class="case-block architecture-block" data-reveal>
+            <div class="case-block-heading">
+              <p class="case-label">Architecture</p>
+              <h3>Thin HTTP boundaries around explicit domain services.</h3>
+              <p>
+                The Node.js runtime owns orchestration and state. Optional
+                Python tools are isolated behind adapters, so transcription or
+                upscaling can fail without taking ownership of job lifecycle.
+              </p>
+            </div>
+            <div
+              class="architecture-diagram"
+              role="img"
+              aria-label="ShortsEngine architecture from HTTP API through orchestration, provider adapters, persistence, rendering, quality assurance, and release"
+            >
+              <div class="architecture-node">
+                <span>Interface</span><strong>HTTP API / operator UI</strong
+                ><small>validation · redaction · idempotency</small>
+              </div>
+              <span class="architecture-arrow" aria-hidden="true">↓</span>
+              <div class="architecture-node architecture-node-accent">
+                <span>Node.js domain</span
+                ><strong>Pipeline router + job service</strong
+                ><small>states · leases · retries · cancellation</small>
+              </div>
+              <span class="architecture-arrow" aria-hidden="true">↓</span>
+              <div class="architecture-row">
+                <div class="architecture-node">
+                  <span>Providers</span><strong>Model and media adapters</strong
+                  ><small>contracts · timeouts · validated output</small>
+                </div>
+                <div class="architecture-node">
+                  <span>Python boundary</span
+                  ><strong>Whisper / Real-ESRGAN</strong
+                  ><small>optional subprocess adapters</small>
+                </div>
+                <div class="architecture-node">
+                  <span>Artifacts</span><strong>Safe storage boundary</strong
+                  ><small>local runtime · cloud adapter seams</small>
+                </div>
+              </div>
+              <span class="architecture-arrow" aria-hidden="true">↓</span>
+              <div class="architecture-row architecture-row-two">
+                <div class="architecture-node">
+                  <span>Render</span><strong>FFmpeg + animation renderer</strong
+                  ><small>deterministic edit plan</small>
+                </div>
+                <div class="architecture-node architecture-node-signal">
+                  <span>Gate</span><strong>Rendered QA + human review</strong
+                  ><small>approve · reject · regenerate</small>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <span>Quality</span>
-            <strong>Unit tests, integration tests, visual proof tools</strong>
+
+          <div class="case-block" data-reveal>
+            <div class="case-block-heading">
+              <p class="case-label">Production boundary</p>
+              <h3>Implemented now versus designed next.</h3>
+              <p>
+                This distinction is deliberate: the current repository is a
+                strong local prototype, not a finished multi-user SaaS.
+              </p>
+            </div>
+            <div
+              class="status-table-wrap"
+              tabindex="0"
+              role="region"
+              aria-label="ShortsEngine implementation status"
+              aria-describedby="status-table-note"
+            >
+              <table class="status-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Concern</th>
+                    <th scope="col">Implemented and tested now</th>
+                    <th scope="col">Next production milestone</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Persistence</th>
+                    <td>
+                      Local/SQLite job and artifact state with protected
+                      transitions.
+                    </td>
+                    <td>
+                      Wire the existing PostgreSQL schema to a selectable
+                      runtime adapter.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Work claiming</th>
+                    <td>
+                      Single-process durable lease queue, retries, recovery,
+                      cancellation, and terminal-state protection.
+                    </td>
+                    <td>
+                      Prove multi-instance claiming, distributed cancellation,
+                      and dead-letter operations.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Artifacts</th>
+                    <td>
+                      Safe path boundaries plus object-storage contracts and
+                      cloud-adapter checks.
+                    </td>
+                    <td>
+                      Operate a managed object store with lifecycle, retention,
+                      and recovery evidence.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Human review</th>
+                    <td>
+                      Low-confidence football results produce candidates that
+                      can be selected, rejected, or regenerated.
+                    </td>
+                    <td>
+                      Validate reviewer identity and conflicting decisions in a
+                      staged multi-user environment.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Render limits</th>
+                    <td>
+                      Per-user daily, per-user concurrent, and global concurrent
+                      limits; idempotent replay avoids double charging a slot.
+                    </td>
+                    <td>
+                      Enforce quotas consistently across multiple workers and
+                      instances.
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Telemetry</th>
+                    <td>
+                      In-process latency, duration, failure, retry, and
+                      cache-hit metrics with redacted health output.
+                    </td>
+                    <td>
+                      Durable metrics, provider billing reconciliation, and
+                      authoritative per-job cost attribution.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="table-note" id="status-table-note">
+              Scroll horizontally on small screens to compare all columns.
+            </p>
           </div>
-          <div>
-            <span>Frontend</span>
-            <strong>HTML, CSS, Canvas, responsive interaction design</strong>
+
+          <div class="engineering-grid" data-reveal>
+            <article>
+              <i data-lucide="refresh-cw" aria-hidden="true"></i>
+              <p class="case-label">Job control</p>
+              <h3>Retries are part of the state machine.</h3>
+              <p>
+                Leases, timeouts, recovery, cancellation, and terminal-state
+                guards make failure visible and replay safer.
+              </p>
+            </article>
+            <article>
+              <i data-lucide="scan-search" aria-hidden="true"></i>
+              <p class="case-label">Human review</p>
+              <h3>Uncertainty becomes an operator action.</h3>
+              <p>
+                Ambiguous football candidates are reviewable; stale or
+                conflicting decisions fail closed.
+              </p>
+            </article>
+            <article>
+              <i data-lucide="shield-check" aria-hidden="true"></i>
+              <p class="case-label">Testing</p>
+              <h3>119 focused test files in the current repository.</h3>
+              <p>
+                Coverage spans domain services, adapters, job transitions,
+                render checks, evaluation paths, and browser smoke tests.
+              </p>
+            </article>
+            <article>
+              <i data-lucide="gauge" aria-hidden="true"></i>
+              <p class="case-label">Learning</p>
+              <h3>Operational proof matters more than a schema file.</h3>
+              <p>
+                The next meaningful milestone is staged multi-instance evidence,
+                not adding “Postgres” to a technology list.
+              </p>
+            </article>
           </div>
-          <div>
-            <span>Product thinking</span>
-            <strong>Human review, analytics, safe failure, iteration</strong>
+
+          <div class="output-section" data-reveal>
+            <div class="case-block-heading">
+              <p class="case-label">Verified outputs</p>
+              <h3>Examples with provenance and limitations attached.</h3>
+            </div>
+            <div class="output-grid">
+              <figure>
+                <img
+                  src="assets/shorts-gps-contact-sheet.png"
+                  width="1422"
+                  height="504"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Contact sheet from The GPS clocks that looked haunted, showing five animated story beats"
+                />
+                <figcaption>
+                  <strong>The GPS clocks that looked haunted</strong>
+                  <span
+                    >41.1s · 1080×1920 · 1,233 frames · all 50 configured
+                    technical QA gates passed. Verified locally; public upload
+                    pending.</span
+                  >
+                </figcaption>
+              </figure>
+              <figure>
+                <img
+                  src="assets/shorts-motivational.jpg"
+                  width="1280"
+                  height="720"
+                  loading="lazy"
+                  decoding="async"
+                  alt="Motivational edit contact frame with a speaker, monochrome treatment, and bold kinetic typography"
+                />
+                <figcaption>
+                  <strong>Motivational workflow example</strong>
+                  <span
+                    >A public Short exists; the matching job-level provenance
+                    was not recorded, so it is presented as a visual example
+                    rather than verified pipeline proof.</span
+                  >
+                </figcaption>
+              </figure>
+            </div>
+            <div class="inline-links output-links">
+              <a
+                href="https://www.youtube.com/@BudgetFriendlyShorts"
+                target="_blank"
+                rel="noopener noreferrer"
+                >YouTube channel
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i
+              ></a>
+              <a
+                href="https://www.youtube.com/shorts/3sQmO4611mo"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Public Short
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i
+              ></a>
+              <a
+                href="https://github.com/anaschatz/Shorts-Engine/blob/main/docs/FOOTBALL_REVIEW_BETA.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Review beta notes
+                <i data-lucide="arrow-up-right" aria-hidden="true"></i
+              ></a>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section-wrap momentum-section" id="momentum" aria-labelledby="momentum-title">
-      <div class="section-heading" data-reveal>
-        <p class="eyebrow">How I build</p>
-        <h2 id="momentum-title">Ambitious prototypes, grounded in evidence.</h2>
-      </div>
+      <section class="stack-band" id="stack" aria-labelledby="stack-title">
+        <div class="section-wrap stack-layout">
+          <div class="section-heading compact-heading" data-reveal>
+            <p class="eyebrow">Demonstrated skills</p>
+            <h2 id="stack-title">Grouped by where I have used them.</h2>
+            <p>
+              These are technologies visible in the selected repositories—not a
+              list of everything I have ever tried.
+            </p>
+          </div>
 
-      <div class="timeline" aria-label="Working principles">
-        <article data-reveal>
-          <span>End to end</span>
-          <h3>Own the full path from input to output</h3>
-          <p>Connect product decisions, domain logic, rendering, storage, validation, and the final user experience.</p>
-        </article>
-        <article data-reveal>
-          <span>Fail safely</span>
-          <h3>Make uncertainty visible and reviewable</h3>
-          <p>Use contracts, evidence gates, fallbacks, and human approval instead of hiding ambiguous results.</p>
-        </article>
-        <article data-reveal>
-          <span>Keep learning</span>
-          <h3>Document decisions and test the next idea</h3>
-          <p>Turn curiosity into scoped experiments, compare results, and keep the improvements that hold up.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="contact-band" id="contact" aria-labelledby="contact-title">
-      <div class="contact-inner" data-reveal>
-        <p class="eyebrow">Start a conversation</p>
-        <h2 id="contact-title">Have a useful problem worth building?</h2>
-        <p>
-          I’m interested in ambitious student teams, internships, and collaborations
-          where curiosity and engineering discipline both matter.
-        </p>
-        <div class="contact-actions">
-          <a class="primary-action light-action" href="mailto:t8240165@aueb.gr">
-            <i data-lucide="mail" aria-hidden="true"></i>
-            Email me
-          </a>
-          <a class="secondary-action contact-github" href="https://github.com/anaschatz" target="_blank" rel="noopener noreferrer">
-            <i data-lucide="code-2" aria-hidden="true"></i>
-            View GitHub
-            <span class="visually-hidden">(opens in a new tab)</span>
-          </a>
+          <div class="skill-matrix" data-reveal>
+            <div>
+              <span>Languages</span
+              ><strong
+                >JavaScript, TypeScript, Python, Java 21, Swift, SQL</strong
+              >
+            </div>
+            <div>
+              <span>Backend &amp; APIs</span
+              ><strong
+                >Node.js services, REST boundaries, idempotency, job
+                lifecycles</strong
+              >
+            </div>
+            <div>
+              <span>Frontend &amp; mobile</span
+              ><strong
+                >React Native, Expo, SwiftUI, JavaFX, semantic HTML/CSS</strong
+              >
+            </div>
+            <div>
+              <span>Data &amp; storage</span
+              ><strong
+                >SQLite, Core Data, AsyncStorage, repository and object-storage
+                boundaries</strong
+              >
+            </div>
+            <div>
+              <span>AI &amp; media</span
+              ><strong
+                >FFmpeg, Faster-Whisper adapters, Real-ESRGAN adapters, OCR,
+                rendered QA</strong
+              >
+            </div>
+            <div>
+              <span>Quality &amp; delivery</span
+              ><strong
+                >Node test runner, JUnit, XCTest, Playwright, CI, structured
+                evaluation</strong
+              >
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
+      </section>
 
-  <footer class="site-footer">
-    <span>© <span data-current-year>2026</span> Anastasis Chatzidakis</span>
-    <span>Designed and built in Athens.</span>
-    <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
-  </footer>
+      <section
+        class="section-wrap about-section"
+        id="about"
+        aria-labelledby="about-title"
+      >
+        <div class="about-copy" data-reveal>
+          <p class="eyebrow">About</p>
+          <h2 id="about-title">
+            I learn by taking a system far enough for its weaknesses to become
+            visible.
+          </h2>
+          <p>
+            I am a second-year Management Science and Technology student at the
+            Athens University of Economics and Business. My projects sit where
+            product thinking meets backend behavior: media automation,
+            local-first mobile workflows, data modeling, and the safeguards that
+            make a prototype inspectable.
+          </p>
+          <p>
+            I am especially interested in internships where I can work close to
+            real users, get rigorous code review, and contribute to backend, AI
+            tooling, or product engineering.
+          </p>
+        </div>
+        <aside class="about-note" data-reveal aria-label="Current direction">
+          <span>Currently improving</span>
+          <strong
+            >Distributed systems fundamentals, production observability, and
+            evaluation for AI-assisted workflows.</strong
+          >
+          <a href="mailto:t8240165@aueb.gr"
+            >t8240165@aueb.gr
+            <i data-lucide="arrow-right" aria-hidden="true"></i
+          ></a>
+        </aside>
+      </section>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
-  <script src="assets/app.js?v=scroll-polish-3" defer></script>
-</body>
+      <section
+        class="contact-band"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div class="contact-inner" data-reveal>
+          <p class="eyebrow">
+            Internships · junior opportunities · collaboration
+          </p>
+          <h2 id="contact-title">
+            Let’s talk about a real engineering problem.
+          </h2>
+          <p>
+            The fastest way to reach me is email. You can also inspect the
+            implementation history and current work on GitHub.
+          </p>
+          <div class="contact-actions">
+            <a
+              class="primary-action light-action"
+              href="mailto:t8240165@aueb.gr"
+            >
+              <i data-lucide="mail" aria-hidden="true"></i> Email me
+            </a>
+            <a
+              class="secondary-action contact-github"
+              href="https://github.com/anaschatz"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i data-lucide="github" aria-hidden="true"></i> View GitHub
+              <span class="visually-hidden">(opens in a new tab)</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© <span data-current-year>2026</span> Anastasis Chatzidakis</span>
+      <span>Designed and built in Athens.</span>
+      <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
+    </footer>
+
+    <script src="assets/project-data.js?v=portfolio-5" defer></script>
+    <script src="assets/project-renderer.js?v=portfolio-5" defer></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"
+      defer
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"
+      defer
+    ></script>
+    <script
+      src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"
+      defer
+    ></script>
+    <script src="assets/app.js?v=portfolio-8" defer></script>
+  </body>
 </html>
