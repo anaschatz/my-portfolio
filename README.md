@@ -35,7 +35,7 @@ Project cards are generated from [`assets/project-data.js`](assets/project-data.
 
 ## Local development
 
-Requirements: Node.js 20 or newer.
+Requirements: Node.js 22.22.2 or newer.
 
 ```bash
 npm ci

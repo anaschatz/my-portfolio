@@ -15,11 +15,11 @@
     "lighthouse": "node scripts/lighthouse.mjs"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.22.2"
   },
   "devDependencies": {
     "chrome-launcher": "^1.2.1",
-    "html-validate": "^10.17.0",
+    "html-validate": "^11.6.1",
     "jsdom": "^30.0.1",
     "lighthouse": "^13.4.1",
     "prettier": "^3.9.6"
