@@ -8,7 +8,7 @@ A static, responsive portfolio for internship and junior engineering application
 
 ## Positioning
 
-Anastasis is a second-year Management Science and Technology student at the Athens University of Economics and Business, focused on backend workflows, AI-assisted media systems, and mobile products.
+Anastasis is a third-year Management Science and Technology student at the Athens University of Economics and Business, focused on backend workflows, AI-assisted media systems, and mobile products.
 
 The flagship case study is [ShortsEngine](https://github.com/anaschatz/Shorts-Engine), an evidence-gated vertical-video production prototype. The case study intentionally distinguishes the current local/SQLite runtime from PostgreSQL, distributed worker, managed object-storage, and durable cost-telemetry milestones that are designed but not yet production-proven.
 
@@ -71,7 +71,9 @@ Reports are generated locally under `.lighthouse/` and are intentionally ignored
 
 ## Build and deployment
 
-`npm run build` copies the production-ready static site into `dist/`. The existing GitHub Pages deployment can continue serving the repository root; `dist/` is available for hosts that expect a build output directory.
+`npm run build` copies the production-ready static site into `dist/`. The Pages deployment workflow runs the full quality gate, uploads only `dist/`, and deploys it through GitHub Actions.
+
+The repository's GitHub Pages source must be set to **GitHub Actions**. Pushes to `main` deploy automatically, and the workflow can also be started manually with `workflow_dispatch`.
 
 No runtime environment variables or secrets are required.
 

@@ -20,6 +20,11 @@ test("the main page has a clear semantic structure", () => {
     document.querySelector("h1").textContent.trim(),
     "Anastasis Chatzidakis",
   );
+  assert.match(
+    document.querySelector(".intro-copy .eyebrow").textContent,
+    /Third-year/i,
+  );
+  assert.doesNotMatch(document.body.textContent, /Second-year/i);
   assert.ok(document.querySelector("main#main-content"));
   assert.ok(document.querySelector("#shorts-engine-case-study"));
   assert.ok(document.querySelector("#stack"));
